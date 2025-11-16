@@ -16,7 +16,7 @@ Examples:
 
 ## Building
 
-Run `compile_vss_client.bat` from a Visual Studio Developer Command Prompt to produce `vss_client.exe` (the script now builds a size-oriented `/MD` release with LTCG, identical-code folding, and RTTI disabled). 
+Run `compile_vss_client.bat` from a Visual Studio Developer Command Prompt to produce `vss_client.exe` (the script now builds a size-oriented `/MD` release with LTCG, identical-code folding, and RTTI disabled by default). Pass `static` as the first argument to either `compile_vss_client.bat` or `compile_mount_vss.bat` if you need a static MSVC runtime build (`/MT`). Static builds are emitted as `vss_client-static.exe` and `mount_vss-static.exe`. 
 
 The repository layout is:
 
@@ -215,3 +215,6 @@ Successfully deleted 1 shadow copies.
 
 C:\Users\user\Source\vss_client>
 ```
+
+
+
